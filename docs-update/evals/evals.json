@@ -1,0 +1,64 @@
+{
+  "skill_name": "docs-update",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "add-k6-operator-submodule",
+      "prompt": "Add the k6-operator docs as a submodule under grafana/.",
+      "expected_output": "Verifies grafana/k6-operator on GitHub is healthy, runs git submodule add, identifies docs path, updates grafana/README.md, commits with proper message, pushes to origin/main. No README.md root change (existing vendor).",
+      "files": []
+    },
+    {
+      "id": 2,
+      "eval_name": "refresh-all-submodules",
+      "prompt": "Refresh all submodules to the latest upstream.",
+      "expected_output": "Runs `git submodule update --remote`, reviews diff, commits the updated pointers with appropriate message, pushes. No README changes required.",
+      "files": []
+    },
+    {
+      "id": 3,
+      "eval_name": "ingest-railway-web",
+      "prompt": "Ingest the docs from docs.railway.com — they don't have a public docs repo on GitHub.",
+      "expected_output": "Verifies upstream absence (gh search), runs discover_urls.py cascade against docs.railway.com, sanity-checks coverage against live nav, fetches and converts pages with html_to_md.py, creates railway/README.md and root README entry (new vendor), commits, pushes.",
+      "files": []
+    },
+    {
+      "id": 4,
+      "eval_name": "refresh-single-grafana-loki",
+      "prompt": "Refresh just grafana/loki to the latest upstream.",
+      "expected_output": "Cd into grafana/loki, fetch + checkout origin/main, return to repo root, stage just grafana/loki, commit with single-product refresh message, push.",
+      "files": []
+    },
+    {
+      "id": 5,
+      "eval_name": "ingest-simon-willison-post",
+      "prompt": "Save Simon Willison's post 'Julia Evans on CSS' to our docs repo. The URL is https://simonwillison.net/2026/May/16/julia-evans/. He's a new source for us — we haven't ingested anything from simonwillison.net yet.",
+      "expected_output": "Single-article fast path: fetch URL via WebFetch, save under simonwillison/simonwillison.net/2026/May/16/julia-evans.md with YAML frontmatter (title, author=Simon Willison, published=2026-05-16, source_url, ingested=today), create new simonwillison/README.md, add Simon Willison section to root README in alphabetical order, commit, push.",
+      "files": [],
+      "assertions": [
+        {"text": "Created the article file at a sensible path mirroring the URL"},
+        {"text": "File begins with a YAML frontmatter block"},
+        {"text": "Frontmatter includes published: 2026-05-16"},
+        {"text": "Frontmatter includes source_url matching the URL"},
+        {"text": "Article body is clean markdown — no nav/footer/share/CTA cruft"},
+        {"text": "Created or updated simonwillison/README.md"},
+        {"text": "Added new Simon Willison section to root README in alphabetical order"}
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "refresh-anthropic-engineering",
+      "prompt": "Refresh the Anthropic engineering blog mirror — pull any posts that aren't already on disk. We have 2 posts currently (managed-agents, claude-code-auto-mode); the live index has more.",
+      "expected_output": "Discover post URLs via RSS/Atom or sitemap, diff against existing local files, fetch ONLY new posts, add frontmatter to each, update anthropic/README.md, commit, push. Existing 2 posts must NOT be re-fetched.",
+      "files": [],
+      "assertions": [
+        {"text": "Ingested at least 2 additional posts beyond the existing 2"},
+        {"text": "Existing posts (managed-agents.md, claude-code-auto-mode.md) NOT re-fetched or modified"},
+        {"text": "Each new file has YAML frontmatter with title/author/published/source_url/ingested"},
+        {"text": "anthropic/README.md updated to reflect new posts"},
+        {"text": "Root README.md NOT changed (Anthropic vendor already existed)"},
+        {"text": "Commit message indicates refresh / new-posts-only, not full re-ingest"}
+      ]
+    }
+  ]
+}

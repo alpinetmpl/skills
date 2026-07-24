@@ -1,0 +1,116 @@
+{
+  "skill_name": "docs-query",
+  "evals": [
+    {
+      "id": 1,
+      "eval_name": "loki-s3-multi-tenant",
+      "prompt": "How do I configure Loki's S3 storage backend? I'm setting up multi-tenant retention.",
+      "expected_output": "Cites specific Loki docs from the local repo (grafana/loki/docs/sources/...), explains storage_config + per-tenant retention, includes file path citations AND a Sources & freshness footer with submodule pin SHA + file's last upstream commit date.",
+      "files": [],
+      "assertions": [
+        {"text": "Cites at least one file path under grafana/loki/docs/"},
+        {"text": "Includes a storage_config YAML example covering s3 backend"},
+        {"text": "Addresses multi-tenant retention specifically"},
+        {"text": "Quotes or paraphrases real text from the local Loki docs"},
+        {"text": "Does NOT include unsupported/hallucinated config keys"},
+        {"text": "Includes a Sources & freshness footer with submodule pin + file freshness for each cited file"}
+      ]
+    },
+    {
+      "id": 2,
+      "eval_name": "cilium-egress-cidr-allowlist",
+      "prompt": "What Cilium network policy do I need to block all egress except to a specific CIDR allowlist?",
+      "expected_output": "Cites Cilium docs (cilium/cilium/Documentation/...), shows a CiliumNetworkPolicy YAML example using egress + toCIDRSet, file path citations, plus Sources & freshness footer.",
+      "files": [],
+      "assertions": [
+        {"text": "Cites at least one file path under cilium/cilium/"},
+        {"text": "Provides a concrete CiliumNetworkPolicy YAML example using egress with toCIDR or toCIDRSet"},
+        {"text": "Addresses default-deny / allowlist semantics correctly"},
+        {"text": "Does NOT invent CiliumNetworkPolicy field names not present in the actual schema"},
+        {"text": "Includes a Sources & freshness footer with submodule pin + file freshness"}
+      ]
+    },
+    {
+      "id": 3,
+      "eval_name": "tailscale-kube-operator-proxyclass",
+      "prompt": "Does Tailscale's Kubernetes Operator support proxy-class based machine assignments?",
+      "expected_output": "Cites Tailscale web-mirror docs (tailscale/tailscale.com/docs/...), gives a clear yes/no with the doc evidence, plus Sources & freshness footer treating it as a web mirror (snapshot date, not submodule pin).",
+      "files": [],
+      "assertions": [
+        {"text": "Cites at least one file path under tailscale/tailscale.com/docs/ (web mirror)"},
+        {"text": "Gives a clear yes/no answer"},
+        {"text": "Quotes or paraphrases real text from the local Tailscale docs"},
+        {"text": "Sources & freshness footer recognizes this as a WEB MIRROR (snapshot date, not submodule pin)"}
+      ]
+    },
+    {
+      "id": 4,
+      "eval_name": "loki-vs-mimir-storage-compare",
+      "prompt": "Compare Loki vs Mimir storage backends — pros and cons of each.",
+      "expected_output": "Pulls from both grafana/loki/docs/ and grafana/mimir/docs/, structured comparison with citations from both products, plus Sources & freshness footer covering both products' files.",
+      "files": [],
+      "assertions": [
+        {"text": "Cites at least one file path under grafana/loki/docs/"},
+        {"text": "Cites at least one file path under grafana/mimir/docs/"},
+        {"text": "Provides a structured comparison of both products' storage backends"},
+        {"text": "Quotes or paraphrases real text from both products' local docs"},
+        {"text": "Sources & freshness footer covers BOTH products' files separately"}
+      ]
+    },
+    {
+      "id": 5,
+      "eval_name": "scylladb-not-in-repo",
+      "prompt": "Find docs for ScyllaDB.",
+      "expected_output": "Flags that ScyllaDB is NOT in the local docs repo, does not silently fall back to training-data answers, offers docs-update handoff or WebSearch with that caveat.",
+      "files": [],
+      "assertions": [
+        {"text": "Explicitly states that ScyllaDB is NOT in the local docs repo"},
+        {"text": "Does not silently fall back to training-data answers without flagging the absence"},
+        {"text": "Offers docs-update handoff OR WebSearch/WebFetch with caveat"},
+        {"text": "Does not fabricate file paths under ~/github.com/alpinetmpl/docs/ that don't exist"}
+      ]
+    },
+    {
+      "id": 6,
+      "eval_name": "cnpg-wal-archiving",
+      "prompt": "How does CloudNativePG handle WAL archiving?",
+      "expected_output": "Navigates to cloudnative-pg/docs/website/docs, returns WAL archiving config with citations to local file paths, distinguishes deprecated barmanObjectStore from current plugin-based approach, plus Sources & freshness footer.",
+      "files": [],
+      "assertions": [
+        {"text": "Cites at least one file path under cloudnative-pg/"},
+        {"text": "Distinguishes current plugin-based approach from deprecated barmanObjectStore"},
+        {"text": "Quotes or paraphrases real text from the local CNPG docs"},
+        {"text": "Does NOT use field names or APIs not in the current CNPG schema"},
+        {"text": "Sources & freshness footer present with submodule pin + file freshness"}
+      ]
+    },
+    {
+      "id": 7,
+      "eval_name": "anthropic-engineering-citation",
+      "prompt": "What does Anthropic's engineering team say about decoupling agent harnesses from execution environments? Is there a hosted setup, and what's the model for separating the 'brain' from the 'hands'?",
+      "expected_output": "Cites anthropic/www.anthropic.com/engineering/managed-agents.md with publish-date freshness footer surfacing 2026-04-08, explains brain/hands separation via execute()/wake() interfaces, quotes real text.",
+      "files": [],
+      "assertions": [
+        {"text": "Cites the managed-agents.md file path"},
+        {"text": "Quotes real content from the post (execute(name,input), wake(sessionId), pet vs cattle, TTFT drop, etc.)"},
+        {"text": "Explains brain/hands separation correctly"},
+        {"text": "Sources & freshness footer surfaces published date 2026-04-08"},
+        {"text": "Footer identifies the source as a blog post / article, not just a web mirror"}
+      ]
+    },
+    {
+      "id": 8,
+      "eval_name": "sequoia-agi-citation",
+      "prompt": "What's Sequoia Capital's 2026 take on AGI? Specifically: how do they define it functionally, and what makes them say AGI is 'here, now'?",
+      "expected_output": "Cites sequoiacap/sequoiacap.com/article/2026-this-is-agi.md, surfaces functional definition (ability to figure things out), three ingredients (pre-training/inference-time compute/long-horizon agents), publish date 2026-01-14 with author byline in footer.",
+      "files": [],
+      "assertions": [
+        {"text": "Cites the 2026-this-is-agi.md file path"},
+        {"text": "Quotes real content from the article"},
+        {"text": "Surfaces the functional definition: AGI = ability to figure things out"},
+        {"text": "Names the three ingredients and links them to ChatGPT-2022 / o1-2024 / coding agents"},
+        {"text": "Freshness footer surfaces published 2026-01-14 with author byline (Pat Grady & Sonya Huang)"}
+      ]
+    }
+  ]
+}
